@@ -6,3 +6,5 @@ export './borrower_screen/borrower_list.dart';
 export './borrower_screen/add_edit_borrowers.dart';
 export './history/history_list.dart';
 export './history/add_edit_history.dart';
+export './dropdown_master/add_edit_dropdown.dart';
+export './dropdown_master/dropdown_list.dart';

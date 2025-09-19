@@ -22,6 +22,10 @@ class AppRoute {
             return HistoryList();
           case "add_edit_history":
             return AddEditHistory();
+          case "dropdowns":
+            return DropdownList();
+          case "add_edit_dropdowns":
+            return AddEditDropdown();
         }
         return const LoginPage();
       },

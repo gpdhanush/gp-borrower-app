@@ -97,6 +97,15 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 16.0),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "dropdowns");
+                },
+                child: Text("Dropdowns"),
+              ),
+            ),
+            SizedBox(height: 16.0),
             Text("Total Borrowers:-", textAlign: TextAlign.left),
           ],
         ),
