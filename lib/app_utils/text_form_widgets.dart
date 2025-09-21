@@ -136,7 +136,7 @@ class TextFormWidget extends StatelessWidget {
           onFieldSubmitted: onFieldSubmitted,
           focusNode: focusNode,
           style: theme.textTheme.bodyMedium?.copyWith(
-            // fontSize: 14,
+            fontSize: 14,
             fontWeight: FontWeight.w600,
             overflow: TextOverflow.clip,
           ),
@@ -174,9 +174,9 @@ class TextFormWidget extends StatelessWidget {
         fontWeight: FontWeight.normal,
       ),
       hintStyle: theme.textTheme.bodyMedium?.copyWith(
-        // fontSize: 12,
+        fontSize: 14,
         fontWeight: FontWeight.normal,
-        // overflow: TextOverflow.clip,
+        overflow: TextOverflow.clip,
         color: Colors.grey.shade700,
       ),
       border: OutlineInputBorder(

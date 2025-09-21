@@ -5,12 +5,14 @@ class AppButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
   final double? width;
+  final Color? color;
 
   const AppButton({
     super.key,
     required this.title,
     required this.onPressed,
     this.width,
+    this.color,
   });
 
   @override
@@ -21,7 +23,7 @@ class AppButton extends StatelessWidget {
         height: 50,
         elevation: 5,
         onPressed: onPressed,
-        color: Colors.indigoAccent,
+        color: color ?? Colors.indigoAccent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         child: Text(
           title,

@@ -120,7 +120,7 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                     .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                     .toList(),
                 validator: (value) =>
-                    value == null ? "Please select a borrower" : null,
+                    value == null ? "Borrower is mandatory!" : null,
                 onSelected: (value) {
                   FocusScope.of(context).unfocus();
                   printContent("Selected Borrower ID: $value");
@@ -135,28 +135,28 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                     child: TextFormWidget(
                       title: "Amount",
                       required: true,
-                      prefixIcon: Icons.currency_rupee_outlined,
+                      // prefixIcon: Icons.currency_rupee_outlined,
                       controller: _amountController,
                       maxLength: 8,
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
                       validator: (value) => (value == null || value.isEmpty)
-                          ? 'Please enter Amount'
+                          ? 'Amount is mandatory!'
                           : null,
                     ),
                   ),
                   const SizedBox(width: 15),
                   Expanded(
                     child: TextFormWidget(
-                      title: "Payment Date",
+                      title: "Date",
                       required: true,
                       focusNode: AlwaysDisabledFocusNode(),
-                      prefixIcon: Icons.calendar_today_outlined,
+                      // prefixIcon: Icons.calendar_today_outlined,
                       controller: _paymentDateController,
                       onTap: () => _selectDate(context),
                       validator: (value) => (value == null || value.isEmpty)
-                          ? 'Please select a payment date'
+                          ? 'Date is mandatory!'
                           : null,
                     ),
                   ),
@@ -172,7 +172,7 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                     .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                     .toList(),
                 validator: (value) =>
-                    value == null ? "Please select a payment type" : null,
+                    value == null ? "Type is mandatory!" : null,
                 onSelected: (value) {
                   FocusScope.of(context).unfocus();
                   printContent("Selected Payment Type ID: $value");
@@ -188,7 +188,7 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                     .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                     .toList(),
                 validator: (value) =>
-                    value == null ? "Please select a payment status" : null,
+                    value == null ? "Status is mandatory!" : null,
                 onSelected: (value) {
                   FocusScope.of(context).unfocus();
                   printContent("Selected Payment Status ID: $value");

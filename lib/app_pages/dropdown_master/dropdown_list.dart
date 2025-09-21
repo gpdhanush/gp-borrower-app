@@ -48,44 +48,48 @@ class _DropdownListState extends State<DropdownList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarWidget(
-        title: "Dropdown Master",
-        action: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "add_edit_dropdowns");
-            },
-            icon: Icon(Icons.add_circle_outline),
-          ),
-        ],
-      ),
-      body: dropdownLists.isEmpty
-          ? AppNoDataFound(showSecond: true)
-          : ListView.builder(
-              itemCount: dropdownLists.length,
-              itemBuilder: (context, index) {
-                final list = dropdownLists[index];
-                return ListTile(
-                  // contentPadding: EdgeInsets.symmetric(
-                  //   horizontal: 18.0,
-                  //   vertical: 5.0,
-                  // ),
-                  leading: CircleAvatar(
-                    radius: 23,
-                    backgroundColor: AppColors.primary,
-                    child: Icon(
-                      Icons.list_alt_outlined,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ),
-                  title: Text(list.name.toUpperCase()),
-                  subtitle: Text(list.key.toUpperCase()),
-                  trailing: Icon(Icons.more_vert_outlined),
-                );
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (!didPop) {
+          Navigator.pushReplacementNamed(context, "home");
+        }
+      },
+      child: Scaffold(
+        appBar: AppBarWidget(
+          title: "Dropdown Master",
+          action: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "add_edit_dropdowns");
               },
+              icon: Icon(Icons.add_circle_outline),
             ),
+          ],
+        ),
+        body: dropdownLists.isEmpty
+            ? AppNoDataFound(showSecond: true)
+            : ListView.builder(
+                itemCount: dropdownLists.length,
+                itemBuilder: (context, index) {
+                  final list = dropdownLists[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      radius: 23,
+                      backgroundColor: AppColors.primary,
+                      child: Icon(
+                        Icons.list_alt_outlined,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                    title: Text(list.name.toUpperCase()),
+                    subtitle: Text(list.key.toUpperCase()),
+                    trailing: Icon(Icons.more_vert_outlined),
+                  );
+                },
+              ),
+      ),
     );
   }
 }
