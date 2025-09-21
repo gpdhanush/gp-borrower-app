@@ -23,6 +23,9 @@ class _AddEditHistoryState extends State<AddEditHistory> {
   List<DropdownMaster> paymentTypeList = [];
   List<DropdownMaster> paymentStatusList = [];
   List<Borrower> borrowerLists = [];
+  int? selectedBorrowerId;
+  int? selectedPaymentTypeId;
+  int? selectedPaymentStatusId;
 
   final AlertService _alertService = AlertService();
 
@@ -116,6 +119,7 @@ class _AddEditHistoryState extends State<AddEditHistory> {
               CustomDropdown(
                 title: 'Select Borrower',
                 required: true,
+                initialSelection: selectedBorrowerId,
                 dropdownMenuEntries: borrowerLists
                     .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                     .toList(),
@@ -124,6 +128,9 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                 onSelected: (value) {
                   FocusScope.of(context).unfocus();
                   printContent("Selected Borrower ID: $value");
+                  setState(() {
+                    selectedBorrowerId = value;
+                  });
                 },
               ),
               const SizedBox(height: 16.0),
@@ -152,7 +159,6 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                       title: "Date",
                       required: true,
                       focusNode: AlwaysDisabledFocusNode(),
-                      // prefixIcon: Icons.calendar_today_outlined,
                       controller: _paymentDateController,
                       onTap: () => _selectDate(context),
                       validator: (value) => (value == null || value.isEmpty)
@@ -168,6 +174,7 @@ class _AddEditHistoryState extends State<AddEditHistory> {
               CustomDropdown(
                 title: 'Payment Type',
                 required: true,
+                initialSelection: selectedPaymentTypeId,
                 dropdownMenuEntries: paymentTypeList
                     .map((e) => DropdownMenuEntry(value: e.id, label: e.name))
                     .toList(),
@@ -176,6 +183,9 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                 onSelected: (value) {
                   FocusScope.of(context).unfocus();
                   printContent("Selected Payment Type ID: $value");
+                  setState(() {
+                    selectedPaymentTypeId = value;
+                  });
                 },
               ),
               const SizedBox(height: 16.0),
@@ -192,6 +202,9 @@ class _AddEditHistoryState extends State<AddEditHistory> {
                 onSelected: (value) {
                   FocusScope.of(context).unfocus();
                   printContent("Selected Payment Status ID: $value");
+                  setState(() {
+                    selectedPaymentStatusId = value;
+                  });
                 },
               ),
               const SizedBox(height: 16.0),
@@ -208,10 +221,34 @@ class _AddEditHistoryState extends State<AddEditHistory> {
               /// Submit Button
               AppButton(
                 title: "Add Payment",
-                onPressed: () {
+                onPressed: () async {
                   FocusManager.instance.primaryFocus?.unfocus();
                   if (_formKey.currentState!.validate()) {
-                    printContent("Form valid ✅");
+                    _alertService.showLoading();
+                    try {
+                      final supabase = Supabase.instance.client;
+                      final response = await supabase
+                          .from('history_master')
+                          .insert({
+                            'user_id': supabase.auth.currentUser!.id,
+                            'borrow_id': selectedBorrowerId,
+                            'amount': _amountController.text.toString(),
+                            'type_of_amount': selectedPaymentTypeId,
+                            'payment_status': selectedPaymentStatusId,
+                            'payment_date': _paymentDateController.text
+                                .toString(),
+                            'notes': _notesController.text.toString().trim(),
+                          });
+                      if (!context.mounted) return;
+                      _alertService.successToast("Saved Successfully.");
+                      Navigator.pushReplacementNamed(context, "history");
+                      printContent("Response ==> $response");
+                    } catch (e) {
+                      printContent("Error: ${e.toString()}");
+                    } finally {
+                      _alertService.hideLoading();
+                      printDirect("===> Function Executed Completed <===");
+                    }
                   }
                 },
               ),

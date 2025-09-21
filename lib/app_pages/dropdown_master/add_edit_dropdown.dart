@@ -26,7 +26,7 @@ class _AddEditDropdownState extends State<AddEditDropdown> {
         );
         return;
       }
-
+      _alertService.showLoading();
       try {
         final supabase = Supabase.instance.client;
         final response = await supabase.from('dropdown_master').insert({
